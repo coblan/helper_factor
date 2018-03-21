@@ -39,7 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'helpers.director',
-    'helpers.authuser',
+    
+    #'helpers.base',
+    #'helpers.authuser',
     'school',
 ]
 
@@ -59,7 +61,7 @@ ROOT_URLCONF = 'urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR,'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'debug': True,
@@ -125,9 +127,26 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-from helpers.director.ex_settings.put_in_base import common_setting
+#地区信息
+LANGUAGE_CODE = 'zh-hans'
+TIME_ZONE='Asia/Shanghai'
 
-# 更新常用配置
-dc = common_setting(BASE_DIR)
-globals().update(dc)
+# 优先使用app目录下的templates，这样更加便于开发
+STATICFILES_FINDERS=[
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+]
+
+# 区别collectstatic命令，赋予不同的static路径
+import sys
+if 'collectstatic' not in sys.argv:
+    STATICFILES_DIRS = (
+        os.path.join(BASE_DIR, 'static').replace('\\', '/'),
+    )
+else:
+    STATIC_ROOT= os.path.join(BASE_DIR, 'static').replace('\\', '/')
+
+#
+MEDIA_ROOT= os.path.join( os.path.dirname(BASE_DIR),'media')
+MEDIA_URL = '/media/'
 

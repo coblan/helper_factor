@@ -15,12 +15,20 @@ Including another URLconf
 """
 from django.conf.urls import url,include
 from django.contrib import admin
+from django.conf import settings
 from django.conf.urls.static import static
 from helpers.authuser import urls as authuser_urls
+from hello.engine_menu import PcMenu
+from django.views.generic import RedirectView 
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/',include(authuser_urls)),
-    url(r'^d/',include('helpers.director'),name='director')
+    
+    url(r'^pc/([\w\.]+)/?$',PcMenu.as_view(),name=PcMenu.url_name),
+    
+    url(r'^d/',include('helpers.director.urls'),name='director'),
+    url(r'^$',RedirectView.as_view(url='/pc/school.school'))    
 ]
 
 if settings.DEBUG:

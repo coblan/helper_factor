@@ -40,8 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'helpers.director',
     
-    #'helpers.base',
-    #'helpers.authuser',
+    'helpers.common',
+    'helpers.authuser',
     'school',
 ]
 

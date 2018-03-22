@@ -22,4 +22,8 @@ class Student(models.Model):
     gender = models.CharField('性别',max_length=10,blank=True,choices=GEN)
     lclass = models.ForeignKey(LClass,verbose_name='班级',blank=True,null=True)
     head = models.CharField('头像',max_length=500,blank=True)
+    start = models.DateField(verbose_name='入学日期',null=True,blank=True)
+    
+    def __unicode__(self):
+        return self.name or '未命名'
     
